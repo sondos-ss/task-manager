@@ -1,17 +1,25 @@
 
+const Task=require('../models/Task');
 
 
 
-const getAllTasks=(req,res)=>{
-    res.send('all items');
+const getAllTasks=async (req,res)=>{
+    try {
+        const tasks= await Task.find({});
+        res.status(200).json({tasks});
+        
+    } catch (error) {
+        res.status(500).json({msg:error});
+    }
 }
 
-const createTask=(req,res)=>{
-    res.send('create task');
+const createTask=async (req,res)=>{
+    const task = await Task.create(req.body)
+  res.status(201).json({ task })
 }
 
 const getTask=(req,res)=>{
-    res.send('get task');
+    res.json({id:req.params.id});
 }
 
 const updateTask=(req,res)=>{
@@ -25,5 +33,5 @@ const deleteTask=(req,res)=>{
 
 
 module.exports={
-    getAllTasks,createTask,updateTask,deleteTask
+    getAllTasks,createTask,getTask,updateTask,deleteTask
 }
